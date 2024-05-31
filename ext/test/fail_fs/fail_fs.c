@@ -273,7 +273,7 @@ static int
 fail_file_size(WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t *sizep)
 {
     FAIL_FILE_HANDLE *fail_fh;
-    struct stat statbuf;
+    DECL_STAT(statbuf);
     int ret;
 
     (void)session; /* Unused */

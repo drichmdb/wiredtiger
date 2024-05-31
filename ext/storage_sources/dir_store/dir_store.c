@@ -39,6 +39,7 @@
 #include <wiredtiger.h>
 #include <wiredtiger_ext.h>
 #include "queue.h"
+#include "sanitizers.h"
 
 #ifndef WT_THOUSAND
 #define WT_THOUSAND 1000
@@ -357,7 +358,7 @@ dir_store_err(DIR_STORE *dir_store, WT_SESSION *session, int ret, const char *fo
 static int
 dir_store_get_directory(const char *home, const char *s, ssize_t len, bool create, char **copy)
 {
-    struct stat sb;
+    DECL_STAT(sb);
     size_t buflen;
     int ret;
     char *dirname;
