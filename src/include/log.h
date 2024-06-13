@@ -250,6 +250,7 @@ struct __wt_log {
     uint32_t prep_missed;           /* Pre-allocated file misses */
     WT_FH *log_fh;                  /* Logging file handle */
     WT_FH *log_dir_fh;              /* Log directory file handle */
+    WT_RWLOCK shared_lock;          /* Locked: PoC for TSan data races */
     wt_shared WT_FH *log_close_fh;  /* Logging file handle to close */
     wt_shared WT_LSN log_close_lsn; /* LSN needed to close */
 

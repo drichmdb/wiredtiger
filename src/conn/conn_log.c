@@ -627,7 +627,9 @@ __log_file_server(void *arg)
                  */
                 WT_ASSIGN_LSN(&close_end_lsn, &log->log_close_lsn);
                 WT_FULL_BARRIER();
+                __wt_writelock(session, &log->shared_lock);
                 log->log_close_fh = NULL;
+                __wt_writeunlock(session, &log->shared_lock);
                 /*
                  * Set the close_end_lsn to the LSN immediately after ours. That is, the beginning
                  * of the next log file. We need to know the LSN file number of our own close in
@@ -987,6 +989,7 @@ __wti_logmgr_create(WT_SESSION_IMPL *session)
     WT_RET(__wt_calloc_one(session, &conn->log));
     log = conn->log;
     WT_RET(__wt_spin_init(session, &log->log_lock, "log"));
+    WT_RET(__wt_rwlock_init(session, &log->shared_lock));
     WT_RET(__wt_spin_init(session, &log->log_fs_lock, "log files"));
     WT_RET(__wt_spin_init(session, &log->log_slot_lock, "log slot"));
     WT_RET(__wt_spin_init(session, &log->log_sync_lock, "log sync"));
@@ -1162,6 +1165,7 @@ __wti_logmgr_destroy(WT_SESSION_IMPL *session)
     __wt_cond_destroy(session, &conn->log->log_write_cond);
     __wt_rwlock_destroy(session, &conn->log->log_remove_lock);
     __wt_spin_destroy(session, &conn->log->log_lock);
+    __wt_rwlock_destroy(session, &conn->log->shared_lock);
     __wt_spin_destroy(session, &conn->log->log_fs_lock);
     __wt_spin_destroy(session, &conn->log->log_slot_lock);
     __wt_spin_destroy(session, &conn->log->log_sync_lock);

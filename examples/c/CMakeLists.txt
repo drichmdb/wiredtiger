@@ -25,6 +25,62 @@ define_c_test(
 )
 
 define_c_test(
+    TARGET ex_backup2
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup2
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup2>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
+    TARGET ex_backup3
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup3
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup3>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
+    TARGET ex_backup4
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup4
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup4>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
+    TARGET ex_backup5
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup5
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup5>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
+    TARGET ex_backup6
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup6
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup6>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
+    TARGET ex_backup7
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup7
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup7>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
+    TARGET ex_backup8
+    SOURCES ex_backup.c
+    DIR_NAME ex_backup8
+    ARGUMENTS -h $<SHELL_PATH:$<TARGET_FILE_DIR:ex_backup8>/WT_HOME>
+    DEPENDS "WT_POSIX"
+)
+
+define_c_test(
     TARGET ex_backup_block
     SOURCES ex_backup_block.c
     DIR_NAME ex_backup_block

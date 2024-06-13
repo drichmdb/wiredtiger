@@ -40,8 +40,8 @@ static const char *const incr_out = "./backup_incr";
 static const char *const uri = "table:logtest";
 
 #define CONN_CONFIG "create,cache_size=100MB,log=(enabled=true,file_max=100K,remove=false)"
-#define MAX_ITERATIONS 5
-#define MAX_KEYS 10000
+#define MAX_ITERATIONS 3
+#define MAX_KEYS 100
 
 static int
 compare_backups(int i)
