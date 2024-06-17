@@ -55,6 +55,12 @@ struct __wt_rwlock { /* Read/write lock */
     int16_t stat_app_usecs_off;     /* waiting application threads offset */
     int16_t stat_int_usecs_off;     /* waiting server threads offset */
     int16_t stat_session_usecs_off; /* waiting session offset */
+    /* 
+     * shared mem for the acquire/releases to sync on. 
+     * This fits into a hole in the struct so there's no change in size, but 
+     * wouldn't hurt to wrap this in an #ifdef. 
+     */
+    int16_t foo;
 
     WT_CONDVAR *cond_readers; /* Blocking readers */
     WT_CONDVAR *cond_writers; /* Blocking writers */

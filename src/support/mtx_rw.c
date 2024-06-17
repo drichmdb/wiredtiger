@@ -147,6 +147,12 @@ __wt_try_readlock(WT_SESSION_IMPL *session, WT_RWLOCK *l)
     if (++new.u.s.readers_active == 0)
         return (__wt_set_return(session, EBUSY));
 
+#ifdef TSAN_BUILD
+    int16_t temp;
+    /* Probably not needed per the comment below. Could add it for consistency? */
+    temp = __atomic_load_n(&l->foo, __ATOMIC_ACQUIRE);
+#endif
+
     /* We rely on this atomic operation to provide a barrier. */
     return (__wt_atomic_casv64(&l->u.v, old.u.v, new.u.v) ? 0 : EBUSY);
 }
@@ -269,6 +275,12 @@ stall:
      * our ticket comes up and whatever data we are protecting may have changed in the meantime.
      */
     WT_ACQUIRE_BARRIER();
+
+#ifdef TSAN_BUILD
+    int16_t temp;
+
+    temp = __atomic_load_n(&l->foo, __ATOMIC_ACQUIRE);
+#endif
     /* Sanity check that we (still) have the lock. */
     WT_ASSERT(session,
       ticket == __wt_atomic_loadv8(&l->u.s.current) &&
@@ -283,6 +295,10 @@ void
 __wt_readunlock(WT_SESSION_IMPL *session, WT_RWLOCK *l)
 {
     WT_RWLOCK new, old;
+
+#ifdef TSAN_BUILD
+    __atomic_store_n(&l->foo, 1, __ATOMIC_RELEASE);
+#endif
 
     do {
         old.u.v = __wt_atomic_loadv64(&l->u.v);
@@ -309,6 +325,10 @@ __wt_try_writelock(WT_SESSION_IMPL *session, WT_RWLOCK *l)
 {
     WT_RWLOCK new, old;
     int64_t **stats;
+
+#ifdef TSAN_BUILD
+    __atomic_store_n(&l->foo, 1, __ATOMIC_RELEASE);
+#endif
 
     WT_STAT_CONN_INCR(session, rwlock_write);
     if (l->stat_write_count_off != -1 && WT_STAT_ENABLED(session)) {
@@ -437,6 +457,11 @@ __wt_writelock(WT_SESSION_IMPL *session, WT_RWLOCK *l)
      * our ticket comes up and whatever data we are protecting may have changed in the meantime.
      */
     WT_ACQUIRE_BARRIER();
+#ifdef TSAN_BUILD
+    int16_t temp;
+
+    temp = __atomic_load_n(&l->foo, __ATOMIC_ACQUIRE);
+#endif
 
     /* Sanity check that we (still) have the lock. */
     WT_ASSERT(session,
@@ -452,6 +477,10 @@ void
 __wt_writeunlock(WT_SESSION_IMPL *session, WT_RWLOCK *l)
 {
     WT_RWLOCK new, old;
+
+#ifdef TSAN_BUILD
+    __atomic_store_n(&l->foo, 1, __ATOMIC_RELEASE);
+#endif
 
     do {
         old.u.v = __wt_atomic_loadv64(&l->u.v);
