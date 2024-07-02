@@ -622,6 +622,7 @@ __wt_curversion_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner
       __wt_cursor_notsup,                              /* cache */
       __wt_cursor_reopen_notsup,                       /* reopen */
       __wt_cursor_checkpoint_id,                       /* checkpoint ID */
+      __wt_cursor_interface_supported,                 /* supported_interface */
       __curversion_close);                             /* close */
 
     WT_CURSOR *cursor;

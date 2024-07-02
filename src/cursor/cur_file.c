@@ -972,6 +972,7 @@ __curfile_create(WT_SESSION_IMPL *session, WT_CURSOR *owner, const char *cfg[], 
       __curfile_cache,                                /* cache */
       __curfile_reopen,                               /* reopen */
       __wt_cursor_checkpoint_id,                      /* checkpoint ID */
+      __wt_cursor_interface_supported,                /* interface_supported */
       __curfile_close);                               /* close */
     WT_BTREE *btree;
     WT_CONFIG_ITEM cval;

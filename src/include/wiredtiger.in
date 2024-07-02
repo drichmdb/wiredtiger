@@ -651,6 +651,10 @@ struct __wt_cursor {
      * @errors
      */
     uint64_t __F(checkpoint_id)(WT_CURSOR *cursor);
+
+    /* TODO - Add description. */
+    bool __F(interface_supported)(WT_CURSOR *cursor, uint32_t interface);
+
 #endif
 
     /*!
@@ -758,6 +762,11 @@ struct __wt_cursor {
      * to be within the bounded ranges.
      */
     WT_ITEM lower_bound, upper_bound;
+
+/* AUTOMATIC FLAG VALUE GENERATION START 0 */
+#define WT_CUR_SUPPORTED_BOUND 0x1u
+/* AUTOMATIC FLAG VALUE GENERATION STOP 32  */
+uint32_t interface_supported_flags;
 
 /* AUTOMATIC FLAG VALUE GENERATION START 0 */
 #define WT_CURSTD_APPEND        0x000000001ull

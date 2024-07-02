@@ -49,6 +49,16 @@ __wt_cursor_notsup(WT_CURSOR *cursor)
 }
 
 /*
+ * __wt_cursor_interface_supported --
+ *     TODO
+ */
+bool
+__wt_cursor_interface_supported(WT_CURSOR *cursor, uint32_t field)
+{
+    return (FLD_ISSET(cursor->interface_supported_flags, field));
+}
+
+/*
  * __wti_cursor_get_value_notsup --
  *     WT_CURSOR.get_value not-supported.
  */
