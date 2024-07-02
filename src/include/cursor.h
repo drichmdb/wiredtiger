@@ -17,7 +17,7 @@
 #define WT_CURSOR_STATIC_INIT(n, get_key, get_value, get_raw_key_value, set_key, set_value,    \
   compare, equals, next, prev, reset, search, search_near, insert, modify, update, remove,     \
   reserve, reconfigure, largest_key, bound, cache, reopen, checkpoint_id, interface_supported, \
-  close)                                                                                       \
+  close, supported_flags)                                                                      \
     static const WT_CURSOR n = {                                                               \
       NULL, /* session */                                                                      \
       NULL, /* uri */                                                                          \
@@ -38,7 +38,7 @@
       NULL,                  /* internal_uri */                                                \
       {NULL, 0, NULL, 0, 0}, /* WT_ITEM lower bound */                                         \
       {NULL, 0, NULL, 0, 0}, /* WT_ITEM upper bound */                                         \
-      0,                     /* uint32_t interface_supported_flags */                          \
+      supported_flags,       /* uint32_t interface_supported_flags */                          \
       0                      /* uint32_t flags */                                              \
     }
 
@@ -354,6 +354,8 @@ struct __wt_cursor_dump {
 
 struct __wt_cursor_hs {
     WT_CURSOR iface;
+
+    int32_t padding[75];
 
     WT_CURSOR *file_cursor; /* Queries of regular history store data */
     WT_TIME_WINDOW time_window;

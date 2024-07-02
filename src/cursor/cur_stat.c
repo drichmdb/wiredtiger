@@ -644,7 +644,8 @@ __wt_curstat_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *other, c
       __wt_cursor_reopen_notsup,                    /* reopen */
       __wt_cursor_checkpoint_id,                    /* checkpoint ID */
       __wt_cursor_interface_supported,              /* supported_interface */
-      __curstat_close);                             /* close */
+      __curstat_close,                              /* close */
+      0);                                           /* interface_supported_flags */
     WT_CURSOR *cursor;
     WT_CURSOR_STAT *cst;
     WT_DECL_RET;

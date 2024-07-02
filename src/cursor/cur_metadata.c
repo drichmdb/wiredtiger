@@ -602,7 +602,8 @@ __wt_curmetadata_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owne
       __wt_cursor_reopen_notsup,                      /* reopen */
       __wt_cursor_checkpoint_id,                      /* checkpoint ID */
       __wt_cursor_interface_supported,                /* supported_interface */
-      __curmetadata_close);                           /* close */
+      __curmetadata_close,                            /* close */
+      0);                                             /* interface_supported_flags */
     WT_CURSOR *cursor;
     WT_CURSOR_METADATA *mdc;
     WT_DECL_RET;

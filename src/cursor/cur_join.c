@@ -583,7 +583,8 @@ __curjoin_entry_member(
       __wt_cursor_reopen_notsup,                      /* reopen */
       __wt_cursor_checkpoint_id,                      /* checkpoint ID */
       __wt_cursor_interface_supported,                /* supported_interface */
-      __wt_cursor_notsup);                            /* close */
+      __wt_cursor_notsup,                             /* close */
+      0);                                             /* interface_supported_flags */
     WT_DECL_RET;
     WT_INDEX *idx;
     WT_ITEM v;
@@ -1234,7 +1235,8 @@ __wt_curjoin_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner, c
       __wt_cursor_reopen_notsup,                    /* reopen */
       __wt_cursor_checkpoint_id,                    /* checkpoint ID */
       __wt_cursor_interface_supported,              /* supported_interface */
-      __curjoin_close);                             /* close */
+      __curjoin_close,                              /* close */
+      0);                                           /* interface_supported_flags */
     WT_CURSOR *cursor;
     WT_CURSOR_JOIN *cjoin;
     WT_DECL_ITEM(tmp);

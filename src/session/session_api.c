@@ -1673,10 +1673,13 @@ __wt_session_range_truncate(
      * complex types such as column groups and indexes. We can't check support for those complex
      * types at this abstraction level.
      */
-    if (CUR2BT(start) == NULL || CUR2BT(start)->type == BTREE_COL_FIX)
-        supports_bounds = false;
-    if (stop != NULL && (CUR2BT(stop) == NULL || CUR2BT(stop)->type == BTREE_COL_FIX))
-        supports_bounds = false;
+
+    if(start->interface_supported(start, WT_CUR_SUPPORTED_BOUND)) {
+        if (CUR2BT(start) == NULL || CUR2BT(start)->type == BTREE_COL_FIX)
+            supports_bounds = false;
+        if (stop != NULL && (CUR2BT(stop) == NULL || CUR2BT(stop)->type == BTREE_COL_FIX))
+            supports_bounds = false;
+    }
 
     /*
      * Truncate does not require keys actually exist so that applications can discard parts of the

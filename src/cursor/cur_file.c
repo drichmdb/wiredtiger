@@ -973,7 +973,9 @@ __curfile_create(WT_SESSION_IMPL *session, WT_CURSOR *owner, const char *cfg[], 
       __curfile_reopen,                               /* reopen */
       __wt_cursor_checkpoint_id,                      /* checkpoint ID */
       __wt_cursor_interface_supported,                /* interface_supported */
-      __curfile_close);                               /* close */
+      __curfile_close,                                /* close */
+    /* Simple example, this will eventually be approx. 25 flags if all methods are supported */
+      WT_CUR_SUPPORTED_BOUND); /* interface_supported_flags */
     WT_BTREE *btree;
     WT_CONFIG_ITEM cval;
     WT_CURSOR *cursor;

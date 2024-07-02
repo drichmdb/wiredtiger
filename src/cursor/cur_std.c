@@ -220,19 +220,34 @@ __wt_cursor_set_notsup(WT_CURSOR *cursor)
      * Set cursor methods other than close, reconfigure and reset, to fail. Close is unchanged so
      * the cursor can be discarded; reset is set to a no-op because session transactional operations
      * reset all of the cursors in a session. Reconfigure is left open in case it's possible in the
-     * future to change these configurations.
+     * future to change these configurations. interface_supported is unchanged as this informs us
+     * which methods are enabled. checkpoint_id contains is always supported and returns zero when
+     * unimplemented. TODO get_key is always supported?
      */
     cursor->bound = __wt_cursor_config_notsup;
+    cursor->cache = __wt_cursor_notsup;
+    // cursor->checkpoint_id = __wt_cursor_notsup;
+    // cursor->close = __wt_cursor_notsup;
     cursor->compare = __wti_cursor_compare_notsup;
+    cursor->equals = __wti_cursor_equals_notsup;
+    // cursor->get_key = __wt_cursor_notsup;
+    cursor->get_raw_key_value = __wti_cursor_get_raw_key_value_notsup;
+    cursor->get_value = __wti_cursor_get_value_notsup;
     cursor->insert = __wt_cursor_notsup;
+    cursor->largest_key = __wt_cursor_notsup;
     cursor->modify = __wti_cursor_modify_notsup;
     cursor->next = __wt_cursor_notsup;
     cursor->prev = __wt_cursor_notsup;
+    // cursor->reconfigure = __wt_cursor_notsup;
     cursor->remove = __wt_cursor_notsup;
+    cursor->reopen = __wt_cursor_reopen_notsup;
     cursor->reserve = __wt_cursor_notsup;
-    cursor->reset = __wti_cursor_noop;
+    // cursor->reset = __wti_cursor_noop;
     cursor->search = __wt_cursor_notsup;
     cursor->search_near = __wti_cursor_search_near_notsup;
+    cursor->set_key = __wti_cursor_set_key_notsup;
+    cursor->set_value = __wti_cursor_set_value_notsup;
+    // cursor->interface_supported = __wt_cursor_notsup;
     cursor->update = __wt_cursor_notsup;
 }
 

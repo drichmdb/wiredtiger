@@ -58,6 +58,7 @@ struct __wt_rwlock { /* Read/write lock */
 
     WT_CONDVAR *cond_readers; /* Blocking readers */
     WT_CONDVAR *cond_writers; /* Blocking writers */
+    uint64_t foo;
 };
 
 /*

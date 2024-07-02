@@ -1252,7 +1252,8 @@ __wt_curhs_open(WT_SESSION_IMPL *session, WT_CURSOR *owner, WT_CURSOR **cursorp)
       __wt_cursor_reopen_notsup,                      /* reopen */
       __wt_cursor_checkpoint_id,                      /* checkpoint ID */
       __wt_cursor_interface_supported,                /* interface_supported */
-      __curhs_close);                                 /* close */
+      __curhs_close,                                  /* close */
+      0);                                             /* interface_supported_flags */
     WT_CURSOR *cursor;
     WT_CURSOR_HS *hs_cursor;
     WT_DECL_RET;
@@ -1266,6 +1267,8 @@ __wt_curhs_open(WT_SESSION_IMPL *session, WT_CURSOR *owner, WT_CURSOR **cursorp)
     cursor->key_format = WT_HS_KEY_FORMAT;
     cursor->value_format = WT_HS_VALUE_FORMAT;
     WT_ERR(__wt_strdup(session, WT_HS_URI, &cursor->uri));
+
+    memset(&hs_cursor->padding, -1, 75);
 
     /* Open the file cursor for operations on the regular history store .*/
     WT_ERR(__curhs_file_cursor_open(session, owner, &hs_cursor->file_cursor));
