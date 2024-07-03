@@ -250,6 +250,8 @@ struct __wt_session_impl {
     u_int stat_dsrc_bucket;     /* Statistics data source bucket offset */
     uint64_t cache_max_wait_us; /* Maximum time an operation waits for space in cache */
 
+    bool suppress_all_logs; /* Disable all logs for the session. This overrides verbose logging. */
+
 #ifdef HAVE_DIAGNOSTIC
     uint8_t dump_raw; /* Configure debugging page dump */
 #endif

@@ -1583,6 +1583,7 @@ __wt_session_range_truncate(
     WT_DECL_RET;
     WT_ITEM start_key, stop_key;
     WT_TRUNCATE_INFO *trunc_info, _trunc_info;
+    int bounds_check_ret;
     int cmp;
     const char *actual_uri;
     bool local_start, local_stop, log_op, log_trunc, needs_next_prev, supports_bounds;
@@ -1590,7 +1591,7 @@ __wt_session_range_truncate(
     actual_uri = NULL;
     local_start = local_stop = log_trunc = false;
     orig_start_key = orig_stop_key = NULL;
-    supports_bounds = true;
+    supports_bounds = false;
 
     /* Setup the truncate information structure */
     trunc_info = &_trunc_info;
@@ -1668,15 +1669,9 @@ __wt_session_range_truncate(
     trunc_info->orig_stop_key = orig_stop_key;
     trunc_info->uri = actual_uri;
 
-    /*
-     * Don't use bounded cursors for FLCS as it isn't supported, additionally skip using them for
-     * complex types such as column groups and indexes. We can't check support for those complex
-     * types at this abstraction level.
-     */
-    if (CUR2BT(start) == NULL || CUR2BT(start)->type == BTREE_COL_FIX)
-        supports_bounds = false;
-    if (stop != NULL && (CUR2BT(stop) == NULL || CUR2BT(stop)->type == BTREE_COL_FIX))
-        supports_bounds = false;
+    WT_DUMMY_RUN(session, start->bound(start, "INVALID_CONFIG"), bounds_check_ret);
+    if (bounds_check_ret != ENOTSUP)
+        supports_bounds = true;
 
     /*
      * Truncate does not require keys actually exist so that applications can discard parts of the

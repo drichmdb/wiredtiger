@@ -427,6 +427,32 @@ union __wt_rand_state {
 };
 
 /*
+ * WT_DUMMY_RUN --
+ * Run a command with all logging disabled and don't flag the transaction as failed if there's an
+ * error. Report the returned error code in ret.
+ *
+ * TODO - This is *very* leaky
+ * - The commands we run can change state. Dummy is the best name I've found but it's not representative.
+ * - What if we panic?
+ * - Are there other flags like WT_TXN_ERROR that need fixing?
+ */
+#define WT_DUMMY_RUN(s, command, ret)                          \
+    do {                                                       \
+        bool _txn_error;                                       \
+        /* Save current error state and suppress all traces */ \
+        _txn_error = F_ISSET(session->txn, WT_TXN_ERROR);      \
+        session->suppress_all_logs = true;                     \
+                                                               \
+        ret = command;                                         \
+                                                               \
+        /* Restore error state and remove log suppression */   \
+        F_CLR(session->txn, WT_TXN_ERROR);                     \
+        if (_txn_error)                                        \
+            F_SET(session->txn, WT_TXN_ERROR);                 \
+        session->suppress_all_logs = false;                    \
+    } while (0)
+
+/*
  * WT_TAILQ_SAFE_REMOVE_BEGIN/END --
  *	Macro to safely walk a TAILQ where we're expecting some underlying
  * function to remove elements from the list, but we don't want to stop on

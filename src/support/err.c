@@ -248,6 +248,9 @@ __eventv(WT_SESSION_IMPL *session, bool is_json, int error, const char *func, in
     /* SECURITY: Message buffer placed at the end of the stack in case snprintf overflows. */
     char msg[4 * 1024];
 
+    if (session != NULL && session->suppress_all_logs)
+        return (0);
+
     /*
      * This function MUST handle a NULL WT_SESSION_IMPL handle.
      *
