@@ -733,7 +733,12 @@ restart:
         WT_INTL_INDEX_GET(session, page, pindex);
         entries = (int)pindex->entries;
 
-        npos2 *= entries;
+        /*
+         * We'll often compute idx as a round number like 4.000, but the floating point
+         * representation will be 3.999999 and integer truncation instead returns index 3. Add an
+         * epsilon to offset this.
+         */
+        npos2 *= entries + WT_EPSILON;
         idx = (int)npos2;
         idx = WT_CLAMP(idx, 0, entries - 1);
         npos2 -= idx;

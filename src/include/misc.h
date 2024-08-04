@@ -78,6 +78,8 @@
 #define WT_PETABYTE ((uint64_t)1125899906842624)
 #define WT_EXABYTE ((uint64_t)1152921504606846976)
 
+#define WT_EPSILON 0.0000001
+
 /* Strings used for indicating failed string buffer construction. */
 #define WT_ERR_STRING "[Error]"
 #define WT_NO_ADDR_STRING "[NoAddr]"
