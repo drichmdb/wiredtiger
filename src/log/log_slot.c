@@ -377,7 +377,7 @@ __log_slot_switch_internal(WT_SESSION_IMPL *session, WT_MYSLOT *myslot, bool for
         WT_RET(__wti_log_release(session, slot, &free_slot));
         F_CLR(myslot, WT_MYSLOT_NEEDS_RELEASE);
         if (free_slot)
-            __wt_log_slot_free(session, slot);
+            __wti_log_slot_free(session, slot);
     }
     return (ret);
 }
@@ -427,11 +427,11 @@ __wti_log_slot_switch(
 }
 
 /*
- * __wt_log_slot_init --
+ * __wti_log_slot_init --
  *     Initialize the slot array.
  */
 int
-__wt_log_slot_init(WT_SESSION_IMPL *session, bool alloc)
+__wti_log_slot_init(WT_SESSION_IMPL *session, bool alloc)
 {
     WT_CONNECTION_IMPL *conn;
     WT_DECL_RET;
@@ -486,11 +486,11 @@ err:
 }
 
 /*
- * __wt_log_slot_destroy --
+ * __wti_log_slot_destroy --
  *     Clean up the slot array on shutdown.
  */
 int
-__wt_log_slot_destroy(WT_SESSION_IMPL *session)
+__wti_log_slot_destroy(WT_SESSION_IMPL *session)
 {
     WT_CONNECTION_IMPL *conn;
     WT_LOG *log;
@@ -680,11 +680,11 @@ __wti_log_slot_release(WT_MYSLOT *myslot, int64_t size)
 }
 
 /*
- * __wt_log_slot_free --
+ * __wti_log_slot_free --
  *     Free a slot back into the pool.
  */
 void
-__wt_log_slot_free(WT_SESSION_IMPL *session, WT_LOGSLOT *slot)
+__wti_log_slot_free(WT_SESSION_IMPL *session, WT_LOGSLOT *slot)
 {
     /*
      * Make sure flags don't get retained between uses. We have to reset them here and not in

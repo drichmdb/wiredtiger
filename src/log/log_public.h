@@ -2,13 +2,7 @@
 
 /* DO NOT EDIT: automatically built by prototypes.py: BEGIN */
 
-extern int __wt_log_allocfile(WT_SESSION_IMPL *session, uint32_t lognum, const char *dest)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_close(WT_SESSION_IMPL *session)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_compat_verify(WT_SESSION_IMPL *session)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_extract_lognum(WT_SESSION_IMPL *session, const char *name, uint32_t *id)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_filename(WT_SESSION_IMPL *session, uint32_t id, const char *file_prefix,
   WT_ITEM *buf) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
@@ -24,10 +18,7 @@ extern int __wt_log_get_backup_files(WT_SESSION_IMPL *session, char ***filesp, u
   uint32_t *maxid, bool active_only) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_needs_recovery(WT_SESSION_IMPL *session, WT_LSN *ckp_lsn, bool *recp)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_open(WT_SESSION_IMPL *session) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_printf(WT_SESSION_IMPL *session, const char *format, ...)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_remove(WT_SESSION_IMPL *session, const char *file_prefix, uint32_t lognum)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_reset(WT_SESSION_IMPL *session, uint32_t lognum)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
@@ -36,18 +27,23 @@ extern int __wt_log_scan(WT_SESSION_IMPL *session, WT_LSN *start_lsnp, WT_LSN *e
   int (*func)(WT_SESSION_IMPL *session, WT_ITEM *record, WT_LSN *lsnp, WT_LSN *next_lsnp,
     void *cookie, int firstrecord),
   void *cookie) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_set_version(WT_SESSION_IMPL *session, uint16_t version, uint32_t first_rec,
-  bool downgrade, bool live_chg, uint32_t *lognump)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_slot_destroy(WT_SESSION_IMPL *session)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-extern int __wt_log_slot_init(WT_SESSION_IMPL *session, bool alloc)
-  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_system_backup_id(WT_SESSION_IMPL *session)
+  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+extern int __wt_log_truncate_files(WT_SESSION_IMPL *session, WT_CURSOR *cursor, bool force)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_vprintf(WT_SESSION_IMPL *session, const char *fmt, va_list ap)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_log_write(WT_SESSION_IMPL *session, WT_ITEM *record, WT_LSN *lsnp, uint32_t flags)
+  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+extern int __wt_logmgr_config(WT_SESSION_IMPL *session, const char **cfg, bool reconfig)
+  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+extern int __wt_logmgr_create(WT_SESSION_IMPL *session)
+  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+extern int __wt_logmgr_destroy(WT_SESSION_IMPL *session)
+  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+extern int __wt_logmgr_open(WT_SESSION_IMPL *session)
+  WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+extern int __wt_logmgr_reconfig(WT_SESSION_IMPL *session, const char **cfg)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_logop_backup_id_pack(WT_SESSION_IMPL *session, WT_ITEM *logrec, uint32_t index,
   uint64_t granularity, const char *id) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
@@ -149,8 +145,8 @@ extern int __wt_txn_op_printlog(WT_SESSION_IMPL *session, const uint8_t **pp, co
 extern int __wt_verbose_dump_log(WT_SESSION_IMPL *session)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern void __wt_log_ckpt(WT_SESSION_IMPL *session, WT_LSN *ckpt_lsn);
-extern void __wt_log_slot_free(WT_SESSION_IMPL *session, WT_LOGSLOT *slot);
 extern void __wt_log_written_reset(WT_SESSION_IMPL *session);
+extern void __wt_logmgr_compat_version(WT_SESSION_IMPL *session);
 extern void __wt_logrec_free(WT_SESSION_IMPL *session, WT_ITEM **logrecp);
 
 #ifdef HAVE_UNITTEST
