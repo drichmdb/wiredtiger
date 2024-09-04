@@ -418,12 +418,12 @@ __compute_min_lognum(WT_SESSION_IMPL *session, WT_LOG *log, uint32_t backup_file
          *
          * Check for N+1, that is, we retain N full log files, and one partial.
          */
-        if ((conn->debug_log_cnt + 1) >= log->fileid)
+        if ((conn->debug_log_cnt + 1) >= log->p->fileid)
             min_lognum = 0;
         else if (WT_IS_INIT_LSN(&log->ckpt_lsn))
-            min_lognum = log->fileid - (conn->debug_log_cnt + 1);
+            min_lognum = log->p->fileid - (conn->debug_log_cnt + 1);
         else
-            min_lognum = WT_MIN(log->fileid - (conn->debug_log_cnt + 1), min_lognum);
+            min_lognum = WT_MIN(log->p->fileid - (conn->debug_log_cnt + 1), min_lognum);
     }
 
     __wt_readunlock(session, &conn->debug_log_retention_lock);
@@ -1008,6 +1008,7 @@ __wt_logmgr_create(WT_SESSION_IMPL *session)
     WT_RET(__wt_calloc_one(session, &conn->log));
     log = conn->log;
     WT_RET(__wt_calloc(session, WT_SLOT_POOL, sizeof(WT_LOGSLOT), &log->slot_pool));
+    WT_RET(__wt_calloc(session, 1, sizeof(WT_LOG_PRIVATE), &log->p));
     WT_RET(__wt_spin_init(session, &log->log_lock, "log"));
     WT_RET(__wt_spin_init(session, &log->log_fs_lock, "log files"));
     WT_RET(__wt_spin_init(session, &log->log_slot_lock, "log slot"));
@@ -1029,7 +1030,7 @@ __wt_logmgr_create(WT_SESSION_IMPL *session)
     WT_INIT_LSN(&log->trunc_lsn);
     WT_INIT_LSN(&log->write_lsn);
     WT_INIT_LSN(&log->write_start_lsn);
-    log->fileid = 0;
+    log->p->fileid = 0;
     WT_RET(__logmgr_version(session, false));
 
     WT_RET(__wt_cond_alloc(session, "log sync", &log->log_sync_cond));
@@ -1190,6 +1191,7 @@ __wt_logmgr_destroy(WT_SESSION_IMPL *session)
     __wt_spin_destroy(session, &conn->log->log_writelsn_lock);
     __wt_free(session, conn->log_path);
     __wt_free(session, conn->log->slot_pool);
+    __wt_free(session, conn->log->p);
     __wt_free(session, conn->log);
     return (ret);
 }

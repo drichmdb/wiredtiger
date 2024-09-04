@@ -591,7 +591,7 @@ __wt_log_reset(WT_SESSION_IMPL *session, uint32_t lognum)
     conn = S2C(session);
     log = conn->log;
 
-    if (!FLD_ISSET(conn->log_flags, WT_CONN_LOG_ENABLED) || log->fileid > lognum)
+    if (!FLD_ISSET(conn->log_flags, WT_CONN_LOG_ENABLED) || log->p->fileid > lognum)
         return (0);
 
     WT_ASSERT(session, F_ISSET(conn, WT_CONN_RECOVERING));
@@ -609,7 +609,7 @@ __wt_log_reset(WT_SESSION_IMPL *session, uint32_t lognum)
         WT_ASSERT(session, old_lognum < lognum || lognum == 1);
         WT_ERR(__wti_log_remove(session, WT_LOG_FILENAME, old_lognum));
     }
-    log->fileid = lognum;
+    log->p->fileid = lognum;
 
     /* Send in true to update connection creation LSNs. */
     WT_WITH_SLOT_LOCK(session, log, ret = __log_newfile(session, true, NULL));
@@ -1140,12 +1140,14 @@ __log_newfile(WT_SESSION_IMPL *session, bool conn_open, bool *created)
     WT_DECL_RET;
     WT_FH *log_fh;
     WT_LOG *log;
+    WT_LOG_PRIVATE *log_p;
     WT_LSN end_lsn, logrec_lsn;
     u_int yield_cnt;
     bool create_log, skipp;
 
     conn = S2C(session);
     log = conn->log;
+    log_p = log->p;
 
     /*
      * Set aside the log file handle to be closed later. Other threads may still be using it to
@@ -1180,7 +1182,7 @@ __log_newfile(WT_SESSION_IMPL *session, bool conn_open, bool *created)
         /* Paired with an acquire read in the log file server path. */
         WT_RELEASE_WRITE_WITH_BARRIER(log->log_close_fh, log->log_fh);
     }
-    log->fileid++;
+    log_p->fileid++;
 
     /*
      * If pre-allocating log files look for one; otherwise, or if we don't find one, create a log
@@ -1190,7 +1192,7 @@ __log_newfile(WT_SESSION_IMPL *session, bool conn_open, bool *created)
     create_log = true;
     if (conn->log_prealloc > 0 && __wt_atomic_load64(&conn->hot_backup_start) == 0) {
         WT_WITH_HOTBACKUP_READ_LOCK(
-          session, ret = __log_alloc_prealloc(session, log->fileid), &skipp);
+          session, ret = __log_alloc_prealloc(session, log_p->fileid), &skipp);
 
         if (!skipp) {
             /*
@@ -1219,33 +1221,33 @@ __log_newfile(WT_SESSION_IMPL *session, bool conn_open, bool *created)
          */
         if (__wt_atomic_load64(&conn->hot_backup_start) == 0 && !conn_open)
             log->prep_missed++;
-        WT_RET(__wti_log_allocfile(session, log->fileid, WT_LOG_FILENAME));
+        WT_RET(__wti_log_allocfile(session, log_p->fileid, WT_LOG_FILENAME));
     }
     /*
      * Since the file system clears the output file handle pointer before searching the handle list
      * and filling in the new file handle, we must pass in a local file handle. Otherwise there is a
      * wide window where another thread could see a NULL log file handle.
      */
-    WT_RET(__log_open_verify(session, log->fileid, &log_fh, NULL, NULL, NULL));
+    WT_RET(__log_open_verify(session, log_p->fileid, &log_fh, NULL, NULL, NULL));
     /*
      * Write the LSN at the end of the last record in the previous log file as the first record in
      * this log file.
      */
-    if (log->fileid == 1)
+    if (log_p->fileid == 1)
         WT_INIT_LSN(&logrec_lsn);
     else
         WT_ASSIGN_LSN(&logrec_lsn, &log->alloc_lsn);
     /*
      * We need to setup the LSNs. Set the end LSN and alloc LSN to the end of the header.
      */
-    WT_SET_LSN(&log->alloc_lsn, log->fileid, WT_LOG_END_HEADER);
+    WT_SET_LSN(&log->alloc_lsn, log_p->fileid, WT_LOG_END_HEADER);
     /*
      * If we're running the version where we write the previous LSN, do so now and update the
      * alloc_lsn.
      */
     if (log->log_version >= WT_LOG_VERSION_SYSTEM) {
         WT_RET(__wti_log_system_prevlsn(session, log_fh, &logrec_lsn));
-        WT_SET_LSN(&log->alloc_lsn, log->fileid, log->first_record);
+        WT_SET_LSN(&log->alloc_lsn, log_p->fileid, log->first_record);
     }
     WT_ASSIGN_LSN(&end_lsn, &log->alloc_lsn);
     WT_RELEASE_WRITE_WITH_BARRIER(log->log_fh, log_fh);
@@ -1671,7 +1673,7 @@ again:
         lastlog = WT_MAX(lastlog, lognum);
         firstlog = WT_MIN(firstlog, lognum);
     }
-    log->fileid = lastlog;
+    log->p->fileid = lastlog;
     __wt_verbose(
       session, WT_VERB_LOG, "log_open: first log %" PRIu32 " last log %" PRIu32, firstlog, lastlog);
     if (firstlog == UINT32_MAX) {
@@ -2068,6 +2070,7 @@ __wt_log_scan(WT_SESSION_IMPL *session, WT_LSN *start_lsnp, WT_LSN *end_lsnp, ui
     WT_FH *log_fh;
     WT_ITEM *cbbuf;
     WT_LOG *log;
+    WT_LOG_PRIVATE *log_p;
     WT_LOG_RECORD *logrec;
     WT_LSN end_lsn, next_lsn, prev_eof, prev_lsn, rd_lsn, start_lsn;
     wt_off_t bad_offset, log_size;
@@ -2086,6 +2089,7 @@ __wt_log_scan(WT_SESSION_IMPL *session, WT_LSN *start_lsnp, WT_LSN *end_lsnp, ui
     corrupt = eol = false;
     firstrecord = 1;
     need_salvage = false;
+    log_p = log->p;
 
     /*
      * If the caller did not give us a callback function there is nothing to do.
@@ -2110,7 +2114,7 @@ __wt_log_scan(WT_SESSION_IMPL *session, WT_LSN *start_lsnp, WT_LSN *end_lsnp, ui
             else if (!LF_ISSET(WT_LOGSCAN_FIRST))
                 WT_RET_MSG(session, WT_ERROR, "WT_LOGSCAN_FIRST not set");
         }
-        lastlog = log->fileid;
+        lastlog = log_p->fileid;
     } else {
         /*
          * If logging is not configured, we can still print out the log if log files exist. We just
