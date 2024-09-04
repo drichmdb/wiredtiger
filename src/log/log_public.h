@@ -97,13 +97,13 @@ union __wt_lsn {
 #define WT_LOG_END_HEADER log->allocsize
 
 struct __wt_log {
-    uint32_t allocsize;            /* Allocation alignment size */
-    uint32_t first_record;         /* Offset of first record in file */
-    wt_off_t log_written;          /* Amount of log written this period */
-                                   /*
-                                    * Log file information
-                                    */
-    uint32_t fileid;               /* Current log file number */
+    uint32_t allocsize;    /* Allocation alignment size */
+    uint32_t first_record; /* Offset of first record in file */
+    wt_off_t log_written;  /* Amount of log written this period */
+                           /*
+                            * Log file information
+                            */
+    WT_LOG_PRIVATE *p; /* Private fields example. */
     uint32_t prep_fileid;          /* Pre-allocated file number */
     wt_shared uint32_t tmp_fileid; /* Temporary file number */
 #ifdef HAVE_DIAGNOSTIC

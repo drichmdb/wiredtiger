@@ -1,5 +1,9 @@
 #pragma once
 
+struct __wt_log_private {
+    uint32_t fileid; /* Current log file number */
+};
+
 /*
  * We allocate the buffer size, but trigger a slot switch when we cross the maximum size of half the
  * buffer. If a record is more than the buffer maximum then we trigger a slot switch and write that
