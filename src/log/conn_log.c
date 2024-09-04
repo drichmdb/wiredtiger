@@ -1007,6 +1007,7 @@ __wt_logmgr_create(WT_SESSION_IMPL *session)
      */
     WT_RET(__wt_calloc_one(session, &conn->log));
     log = conn->log;
+    WT_RET(__wt_calloc(session, WT_SLOT_POOL, sizeof(WT_LOGSLOT), &log->slot_pool));
     WT_RET(__wt_spin_init(session, &log->log_lock, "log"));
     WT_RET(__wt_spin_init(session, &log->log_fs_lock, "log files"));
     WT_RET(__wt_spin_init(session, &log->log_slot_lock, "log slot"));
@@ -1188,6 +1189,7 @@ __wt_logmgr_destroy(WT_SESSION_IMPL *session)
     __wt_spin_destroy(session, &conn->log->log_sync_lock);
     __wt_spin_destroy(session, &conn->log->log_writelsn_lock);
     __wt_free(session, conn->log_path);
+    __wt_free(session, conn->log->slot_pool);
     __wt_free(session, conn->log);
     return (ret);
 }
