@@ -53,7 +53,8 @@ static_assert((WT_UPDATE_SIZE_NOVALUE - WT_UPDATE_SIZE) == 1, "WT_UPDATE size mi
 #define WT_PADDING_CHECK(s)                                                                        \
     static_assert(sizeof(s) > WT_CACHE_LINE_ALIGNMENT || sizeof(s) % WT_CACHE_LINE_ALIGNMENT == 0, \
       #s " padding check failed")
-WT_PADDING_CHECK(WT_LOGSLOT);
+/* FIXME-WT-13496 - WT_LOGSLOT is module private. This alignment check needs to move */
+/* WT_PADDING_CHECK(WT_LOGSLOT); */
 WT_PADDING_CHECK(WT_TXN_SHARED);
 
 /*
