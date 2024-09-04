@@ -529,7 +529,7 @@ typedef uint64_t wt_timestamp_t;
 #include "futex.h"
 #include "generation.h"
 #include "hazard.h"
-#include "log.h"
+#include "../log/log_public.h"
 #include "lsm.h"
 #include "meta.h" /* required by block.h */
 #include "optrack.h"
@@ -559,7 +559,7 @@ typedef uint64_t wt_timestamp_t;
 #include "../cursor/cursor_public.h"
 #include "../evict/evict_public.h"
 #include "../history/history_public.h"
-#include "../log/log_public.h"
+// #include "../log/log_public.h"
 #include "../lsm/lsm_public.h"
 #include "../meta/meta_public.h"
 #include "../optrack/optrack_public.h"
