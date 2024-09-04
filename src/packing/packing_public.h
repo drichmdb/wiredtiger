@@ -1,5 +1,7 @@
 #pragma once
 
+/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */
+
 extern int __wt_ext_pack_close(WT_EXTENSION_API *wt_api, WT_PACK_STREAM *ps, size_t *usedp)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_ext_pack_int(WT_EXTENSION_API *wt_api, WT_PACK_STREAM *ps, int64_t i)
@@ -46,3 +48,5 @@ extern int __wt_struct_unpack(WT_SESSION_IMPL *session, const void *buffer, size
 #ifdef HAVE_UNITTEST
 
 #endif
+
+/* DO NOT EDIT: automatically built by prototypes.py: END */

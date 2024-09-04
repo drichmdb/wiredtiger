@@ -1,5 +1,7 @@
 #pragma once
 
+/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */
+
 extern bool __wt_compact_check_eligibility(WT_SESSION_IMPL *session, const char *uri)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern bool __wt_session_prefetch_check(WT_SESSION_IMPL *session, WT_REF *ref)
@@ -62,3 +64,5 @@ extern int __ut_session_config_int(WT_SESSION_IMPL *session, const char *config)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 
 #endif
+
+/* DO NOT EDIT: automatically built by prototypes.py: END */

@@ -1,5 +1,7 @@
 #pragma once
 
+/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */
+
 extern const char *__wt_wiredtiger_error(int error)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_background_compact_end(WT_SESSION_IMPL *session)
@@ -55,3 +57,5 @@ extern void __wt_log_wrlsn(WT_SESSION_IMPL *session, int *yield);
 #ifdef HAVE_UNITTEST
 
 #endif
+
+/* DO NOT EDIT: automatically built by prototypes.py: END */

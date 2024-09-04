@@ -1,5 +1,7 @@
 #pragma once
 
+/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */
+
 extern int __wt_conf_bind(WT_SESSION_IMPL *session, const char *compiled_str, va_list ap)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_conf_compile(WT_SESSION_IMPL *session, const char *api, const char *format,
@@ -17,3 +19,5 @@ extern void __wt_conf_compile_discard(WT_SESSION_IMPL *session);
 #ifdef HAVE_UNITTEST
 
 #endif
+
+/* DO NOT EDIT: automatically built by prototypes.py: END */

@@ -1,5 +1,7 @@
 #pragma once
 
+/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */
+
 extern int __wti_ovfl_reuse_add(WT_SESSION_IMPL *session, WT_PAGE *page, const uint8_t *addr,
   size_t addr_size, const void *value, size_t value_size)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
@@ -48,3 +50,5 @@ extern void __wti_rec_dictionary_reset(WT_RECONCILE *r);
 #ifdef HAVE_UNITTEST
 
 #endif
+
+/* DO NOT EDIT: automatically built by prototypes.py: END */

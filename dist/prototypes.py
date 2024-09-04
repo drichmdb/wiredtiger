@@ -68,17 +68,54 @@ def fn_prototypes(ext_fns, int_fns, tests, name):
 # allow them to be ifdef'd out.
 def output(ext_fns, tests, f):
     tmp_file = '__tmp_prototypes' + str(os.getpid())
-    tfile = open(tmp_file, 'w')
-    tfile.write("#pragma once\n\n")
-    for e in sorted(list(set(ext_fns))):
-        tfile.write(e)
 
-    tfile.write('\n#ifdef HAVE_UNITTEST\n')
-    for e in sorted(list(set(tests))):
-        tfile.write(e)
-    tfile.write('\n#endif\n')
+    if not os.path.isfile(f):
+        # No such file. Write it from scratch
+        tfile = open(tmp_file, 'w')
+        tfile.write("#pragma once\n\n")
 
-    tfile.close()
+        tfile.write("/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */\n\n")
+        for e in sorted(list(set(ext_fns))):
+            tfile.write(e)
+
+        tfile.write('\n#ifdef HAVE_UNITTEST\n')
+        for e in sorted(list(set(tests))):
+            tfile.write(e)
+        tfile.write('\n#endif\n')
+        tfile.write("\n\n/* DO NOT EDIT: automatically built by prototypes.py: END */\n")
+
+        tfile.close()
+    else:
+        # File exists. We want to modify the contents
+        with open(f, 'r') as file:
+            lines = file.readlines()
+
+        # Modify protoypes
+        start_line = lines.index('/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */\n')
+        end_line = lines.index('/* DO NOT EDIT: automatically built by prototypes.py: END */\n')
+
+        # Safety check: We should always have some functions defined in the file
+        assert(start_line + 1 != end_line)
+
+        # All content before START
+        new_lines = lines[:start_line + 1]
+        new_lines.append("\n") # maintain the new line after START
+
+        # Replace the function prototypes
+        for e in sorted(list(set(ext_fns))):
+            new_lines.append(e)
+
+        new_lines.append('\n#ifdef HAVE_UNITTEST\n')
+        for e in sorted(list(set(tests))):
+            new_lines.append(e)
+        new_lines.append('\n#endif\n')
+
+        # All content after END
+        new_lines.append("\n") # maintain the new line before END
+        new_lines.extend(lines[end_line:])
+
+        with open(tmp_file, 'w') as file:
+            file.writelines(new_lines)
     format_srcfile(tmp_file)
     compare_srcfile(tmp_file, f)
 
