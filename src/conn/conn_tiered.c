@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "conn_private.h"
 
 #ifdef __GNUC__
 #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 1)

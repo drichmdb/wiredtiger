@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "btree_private.h"
 
 /*
  * When returning an error, we need to restore the cursor to a valid state, the upper-level cursor

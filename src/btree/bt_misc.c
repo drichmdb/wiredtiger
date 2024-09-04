@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "btree_private.h"
 
 /*
  * __wt_addr_string --

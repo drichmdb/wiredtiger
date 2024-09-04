@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "conn_private.h"
 
 /*
  * Compute the time in nanoseconds that must be reserved to represent a number of bytes in a

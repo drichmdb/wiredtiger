@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "lsm_private.h"
 
 static int __lsm_manager_run_server(WT_SESSION_IMPL *);
 

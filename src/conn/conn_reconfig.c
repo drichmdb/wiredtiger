@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "conn_private.h"
 
 /*
  * __conn_compat_parse --

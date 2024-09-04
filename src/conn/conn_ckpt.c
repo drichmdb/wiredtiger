@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "conn_private.h"
 
 static int __ckpt_server_start(WT_CONNECTION_IMPL *);
 

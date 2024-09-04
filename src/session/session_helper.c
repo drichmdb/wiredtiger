@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "session_private.h"
 
 /*
  * __wt_session_array_walk --

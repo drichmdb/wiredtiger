@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "cursor_private.h"
 
 static int __curtable_open_indices(WT_CURSOR_TABLE *ctable);
 static int __curtable_update(WT_CURSOR *cursor);

@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "btree_private.h"
 
 static int __btree_conf(WT_SESSION_IMPL *, WT_CKPT *ckpt, bool);
 static int __btree_get_last_recno(WT_SESSION_IMPL *);

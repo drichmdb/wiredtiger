@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "schema_private.h"
 
 /*
  * __find_next_col --

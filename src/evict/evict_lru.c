@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "evict_private.h"
 
 static int __evict_clear_all_walks_and_saved_tree(WT_SESSION_IMPL *);
 static void __evict_list_clear_page_locked(WT_SESSION_IMPL *, WT_REF *, bool);

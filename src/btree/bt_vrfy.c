@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "btree_private.h"
 
 /*
  * There's a bunch of stuff we pass around during verification, group it together to make the code

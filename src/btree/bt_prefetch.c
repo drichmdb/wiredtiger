@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "btree_private.h"
 
 /*
  * __wti_btree_prefetch --

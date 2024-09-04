@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "lsm_private.h"
 
 /*
  * __lsm_meta_read_v0 --

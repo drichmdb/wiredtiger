@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "lsm_private.h"
 
 /*
  * __curstat_lsm_init --

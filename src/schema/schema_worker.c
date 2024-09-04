@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "schema_private.h"
 
 /*
  * __wti_execute_handle_operation --

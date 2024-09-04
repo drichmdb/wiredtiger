@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "config_private.h"
 
 /*
  * __wt_config_collapse --

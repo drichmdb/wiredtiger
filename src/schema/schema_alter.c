@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "schema_private.h"
 static int __schema_alter(WT_SESSION_IMPL *, const char *, const char *[]);
 
 /*

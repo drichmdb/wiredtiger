@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "reconcile_private.h"
 
 /*
  * __rec_key_state_update --

@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "cursor_private.h"
 
 /*
  * __curindex_get_value --

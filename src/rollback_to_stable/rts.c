@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "rollback_to_stable_private.h"
 
 /*
  * __wti_rts_progress_msg --

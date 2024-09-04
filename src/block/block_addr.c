@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "block_private.h"
 
 #define WT_BLOCK_COOKIE_FILEID 0x01 /* The following bytes are an object ID. */
 

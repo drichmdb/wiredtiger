@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "meta_private.h"
 
 /*
  * __metadata_turtle --

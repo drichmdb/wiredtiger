@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "block_private.h"
 
 static int __desc_read(WT_SESSION_IMPL *, uint32_t allocsize, WT_BLOCK *);
 

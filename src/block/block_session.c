@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "block_private.h"
 
 /*
  * __block_ext_alloc --

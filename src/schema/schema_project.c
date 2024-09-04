@@ -7,6 +7,7 @@
  */
 
 #include "wt_internal.h"
+#include "schema_private.h"
 
 /*
  * __wt_schema_project_in --
