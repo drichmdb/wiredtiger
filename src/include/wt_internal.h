@@ -547,6 +547,13 @@ typedef uint64_t wt_timestamp_t;
 #include "connection.h"
 
 #include "extern.h"
+
+#include "../log/log.h"
+
+#ifdef HAVE_UNITTEST
+#include "../log/log_private.h"
+#endif
+
 #ifdef _WIN32
 #include "extern_win.h"
 #else
