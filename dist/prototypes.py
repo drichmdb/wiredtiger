@@ -147,7 +147,8 @@ def prototypes_extern():
         if fnmatch.fnmatch(name, '*/checksum/*'):
             # TODO - checksum is a multi-level directory and this script assumes a flat hierarchy.
             # For now throw these functions into extern.h where they were already located
-            fn_prototypes(ext_func_dict["include"], int_func_dict["include"], test_dict["include"], name)
+            fn_prototypes(ext_func_dict["include"], int_func_dict["include"], 
+                          test_dict["include"], name)
             continue
         if re.match(r'^.*/os_(?:posix|win|linux|darwin)/.*', name):
             # Handled separately in prototypes_os().
@@ -159,8 +160,10 @@ def prototypes_extern():
             # NOTE: This assumes a flat directory with no subdirectories
             comp = os.path.basename(os.path.dirname(name))
             if comp not in modularised_components:
-                # Non modularised components put all their function prototypes in src/include/extern.h
-                fn_prototypes(ext_func_dict["include"], int_func_dict["include"], test_dict["include"], name)
+                # Non modularised components put all their function prototypes in 
+                # src/include/extern.h
+                fn_prototypes(ext_func_dict["include"], int_func_dict["include"], 
+                              test_dict["include"], name)
             else:
                 fn_prototypes(ext_func_dict[comp], int_func_dict[comp], test_dict[comp], name)
         else:
@@ -171,7 +174,8 @@ def prototypes_extern():
     for comp in ext_func_dict.keys():
         if comp == "include":
             # All of these functions go in extern.h
-            output(ext_func_dict[comp] + int_func_dict[comp], test_dict[comp], f"../src/include/extern.h")
+            output(ext_func_dict[comp] + int_func_dict[comp], test_dict[comp], 
+                   f"../src/include/extern.h")
         else:
             output(ext_func_dict[comp], test_dict[comp], f"../src/{comp}/{comp}.h")
             if len(int_func_dict[comp]) > 0:
