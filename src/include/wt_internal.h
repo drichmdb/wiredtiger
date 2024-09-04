@@ -573,8 +573,10 @@ typedef uint64_t wt_timestamp_t;
 #include "../tiered/tiered_public.h"
 #include "../txn/txn_public.h"
 
-// FIXME-WT-13496 - We need a way to expose these headers *only* for our unit testing framework.
-// This #ifdef makes the code compile, but still exposes private functions to the entire system.
+/*
+ * FIXME-WT-13496 - We need a way to expose these headers *only* for our unit testing framework.
+ * This if def makes the code compile, but still exposes private functions to the entire system.
+ */
 #ifdef HAVE_UNITTEST
 #include "../block/block_private.h"
 #include "../block_cache/block_cache_private.h"

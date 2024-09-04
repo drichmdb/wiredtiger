@@ -143,7 +143,8 @@ def prototypes_extern():
         if fnmatch.fnmatch(name, '*/checksum/*'):
             # TODO - checksum is a multi-level directory and this script assumes a flat hierarchy.
             # For now throw these functions into extern.h where they were already located
-            fn_prototypes(ext_func_dict["include"], int_func_dict["include"], test_dict["include"], name)
+            fn_prototypes(ext_func_dict["include"], int_func_dict["include"], 
+                          test_dict["include"], name)
             continue
         if re.match(r'^.*/os_(?:posix|win|linux|darwin)/.*', name):
             # Handled separately in prototypes_os().
