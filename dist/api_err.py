@@ -118,6 +118,7 @@ tfile = open(tmp_file, 'w')
 tfile.write('''/* DO NOT EDIT: automatically built by dist/api_err.py. */
 
 #include "wt_internal.h"
+#include "conn_private.h"
 
 /*
  * Historically, there was only the wiredtiger_strerror call because the POSIX

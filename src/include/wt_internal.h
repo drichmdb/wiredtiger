@@ -547,6 +547,53 @@ typedef uint64_t wt_timestamp_t;
 #include "connection.h"
 
 #include "extern.h"
+
+#include "../block/block_public.h"
+#include "../block_cache/block_cache_public.h"
+#include "../bloom/bloom_public.h"
+#include "../btree/btree_public.h"
+#include "../call_log/call_log_public.h"
+#include "../conf/conf_public.h"
+#include "../config/config_public.h"
+#include "../conn/conn_public.h"
+#include "../cursor/cursor_public.h"
+#include "../evict/evict_public.h"
+#include "../history/history_public.h"
+#include "../log/log_public.h"
+#include "../lsm/lsm_public.h"
+#include "../meta/meta_public.h"
+#include "../optrack/optrack_public.h"
+#include "../os_common/os_common_public.h"
+#include "../packing/packing_public.h"
+#include "../reconcile/reconcile_public.h"
+#include "../schema/schema_public.h"
+#include "../session/session_public.h"
+#include "../rollback_to_stable/rollback_to_stable_public.h"
+#include "../support/support_public.h"
+#include "../tiered/tiered_public.h"
+#include "../txn/txn_public.h"
+
+// FIXME-WT-13496 - We need a way to expose these headers *only* for our unit testing framework.
+// This #ifdef makes the code compile, but still exposes private functions to the entire system.
+#ifdef HAVE_UNITTEST
+#include "../block/block_private.h"
+#include "../block_cache/block_cache_private.h"
+#include "../btree/btree_private.h"
+#include "../config/config_private.h"
+#include "../conn/conn_private.h"
+#include "../cursor/cursor_private.h"
+#include "../evict/evict_private.h"
+#include "../log/log_private.h"
+#include "../lsm/lsm_private.h"
+#include "../meta/meta_private.h"
+#include "../reconcile/reconcile_private.h"
+#include "../rollback_to_stable/rollback_to_stable_private.h"
+#include "../schema/schema_private.h"
+#include "../session/session_private.h"
+#include "../tiered/tiered_private.h"
+#include "../txn/txn_private.h"
+#endif
+
 #ifdef _WIN32
 #include "extern_win.h"
 #else

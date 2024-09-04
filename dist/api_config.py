@@ -361,6 +361,7 @@ tfile = open(tmp_file, 'w')
 tfile.write('''/* DO NOT EDIT: automatically built by dist/api_config.py. */
 
 #include "wt_internal.h"
+#include "config_private.h"
 ''')
 
 # Make a TextWrapper that wraps at commas.
