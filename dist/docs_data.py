@@ -100,7 +100,7 @@ arch_doc_pages = [
         ['src/include/log.h', 'src/log/']),
     ArchDocPage('arch-logging',
         ['WT_CURSOR_LOG', 'WT_LOG', 'WT_LOGSLOT', 'WT_LOG_RECORD', 'WT_LSN'],
-        ['src/include/log.h', 'src/include/log_inline.h', 'src/log/']),
+        ['src/include/log.h', 'src/log/log_inline.h', 'src/log/']),
     ArchDocPage('arch-metadata',
         [],
         ['src/include/meta.h', 'src/meta/']),

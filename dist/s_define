@@ -9,7 +9,7 @@ check_fast_mode_flag
 # List of source files to search.
 l=$(
     sed -e '/^[a-z]/!d' -e 's/[	 ].*$//' -e 's,^,../,' filelist
-    ls -1 ../src/include/*_inline.h ../src/utilities/*.c ../test/*/*.c
+    ls -1 ../src/*/*_inline.h ../src/utilities/*.c ../test/*/*.c
 )
 
 # List of include files for source #defines.
