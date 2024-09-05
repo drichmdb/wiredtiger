@@ -529,7 +529,7 @@ typedef uint64_t wt_timestamp_t;
 #include "futex.h"
 #include "generation.h"
 #include "hazard.h"
-#include "log.h"
+#include "../log/log.h"
 #include "lsm.h"
 #include "meta.h" /* required by block.h */
 #include "optrack.h"
@@ -547,8 +547,6 @@ typedef uint64_t wt_timestamp_t;
 #include "connection.h"
 
 #include "extern.h"
-
-#include "../log/log.h"
 
 #ifdef HAVE_UNITTEST
 #include "../log/log_private.h"
