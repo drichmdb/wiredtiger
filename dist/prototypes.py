@@ -134,6 +134,9 @@ def prototypes_extern():
     for name in source_files():
         if not fnmatch.fnmatch(name, '*.c') + fnmatch.fnmatch(name, '*/*_inline.h'):
             continue
+        # static inline functions don't need a prototype. Hack: Just skip evict_inline.h for now.
+        if fnmatch.fnmatch(name, "*/evict_inline.h"):
+            continue
         if fnmatch.fnmatch(name, '*/checksum/arm64/*'):
             continue
         if fnmatch.fnmatch(name, '*/checksum/loongarch64/*'):

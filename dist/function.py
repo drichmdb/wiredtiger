@@ -316,6 +316,9 @@ def function_scoping():
                 fn = fn_defs[fn_name]
                 if module != fn.module:
                     fn.used_outside_of_module = True
+                if module == fn.module and source_file == "../src/evict/evict_inline.h":
+                    # Hack - don't consider inline.h files part of the module
+                    fn.used_outside_of_module = True
                 if source_file != fn.source:
                     fn.used_outside_of_file = True
 
