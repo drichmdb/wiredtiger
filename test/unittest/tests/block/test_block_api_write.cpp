@@ -14,6 +14,7 @@
  */
 #include <catch2/catch.hpp>
 #include <iostream>
+#include <filesystem>
 
 #include "wt_internal.h"
 #include "../wrappers/mock_session.h"
@@ -126,22 +127,25 @@ TEST_CASE("Block manager: file operation read, write and write_size functions", 
       (session->get_mock_connection()->setup_block_manager(session->get_wt_session_impl())) == 0);
     session->setup_block_manager_file_operations();
 
-    WT_BM *bm;
-    REQUIRE(__wt_blkcache_open(session->get_wt_session_impl(), "file:test", cp.get_config_array(),
-              false, false, DEFAULT_BLOCK_SIZE, &bm) == 0);
+    WT_BM bm;
+    WT_CLEAR(bm);
+    __ut_bm_method_set(&bm);
 
-    size_t root_addr_size;
-    bm->checkpoint_load(bm, session->get_wt_session_impl(), NULL, 0, NULL, &root_addr_size, false);
-    WT_UNUSED(root_addr_size);
+    auto path = std::filesystem::current_path();
+    path += "/test.wt";
+    REQUIRE(__wt_block_manager_create(session->get_wt_session_impl(), path.c_str(), DEFAULT_BLOCK_SIZE) == 0);
+    REQUIRE(__wt_block_open(session->get_wt_session_impl(), path.c_str(), WT_TIERED_OBJECTID_NONE,
+              cp.get_config_array(), false, false, false, DEFAULT_BLOCK_SIZE, &bm.block) == 0);
+    REQUIRE(__wti_block_ckpt_init(session->get_wt_session_impl(), &bm.block->live, nullptr) == 0);
 
     SECTION("Test write_size api")
     {
-        test_and_validate_write_size(bm, session, 0);
-        test_and_validate_write_size(bm, session, 800);
-        test_and_validate_write_size(bm, session, 1234);
-        test_and_validate_write_size(bm, session, 5000);
-        test_and_validate_write_size(bm, session, 5120);
-        test_and_validate_write_size(bm, session, 9999);
+        test_and_validate_write_size(&bm, session, 0);
+        test_and_validate_write_size(&bm, session, 800);
+        test_and_validate_write_size(&bm, session, 1234);
+        test_and_validate_write_size(&bm, session, 5000);
+        test_and_validate_write_size(&bm, session, 5120);
+        test_and_validate_write_size(&bm, session, 9999);
     }
 
     SECTION("Test generic write api")
@@ -150,19 +154,19 @@ TEST_CASE("Block manager: file operation read, write and write_size functions", 
         WT_ITEM buf;
         WT_CLEAR(buf);
         std::string test_string("hello");
-        create_write_buffer(bm, session, test_string, &buf, 0);
+        create_write_buffer(&bm, session, test_string, &buf, 0);
 
         uint8_t addr[WT_BTREE_MAX_ADDR_COOKIE];
         size_t addr_size;
         // Perform a generic write.
         REQUIRE(
-          bm->write(bm, session->get_wt_session_impl(), &buf, addr, &addr_size, false, false) == 0);
-        valid_write_and_read_block(bm, session, &buf, addr, addr_size, test_string, false);
+          bm.write(&bm, session->get_wt_session_impl(), &buf, addr, &addr_size, false, false) == 0);
+        valid_write_and_read_block(&bm, session, &buf, addr, addr_size, test_string, false);
 
         // Validate data checksum.
         REQUIRE(
-          bm->write(bm, session->get_wt_session_impl(), &buf, addr, &addr_size, true, false) == 0);
-        valid_write_and_read_block(bm, session, &buf, addr, addr_size, test_string, true);
+          bm.write(&bm, session->get_wt_session_impl(), &buf, addr, &addr_size, true, false) == 0);
+        valid_write_and_read_block(&bm, session, &buf, addr, addr_size, test_string, true);
         __wt_buf_free(nullptr, &buf);
     }
 
@@ -175,18 +179,18 @@ TEST_CASE("Block manager: file operation read, write and write_size functions", 
         for (const auto &str : test_strings) {
             WT_ITEM buf;
             WT_CLEAR(buf);
-            create_write_buffer(bm, session, str, &buf, 0);
+            create_write_buffer(&bm, session, str, &buf, 0);
 
             std::array<uint8_t, WT_BTREE_MAX_ADDR_COOKIE> addr;
             size_t addr_size;
-            REQUIRE(bm->write(bm, session->get_wt_session_impl(), &buf, addr.data(), &addr_size,
+            REQUIRE(bm.write(&bm, session->get_wt_session_impl(), &buf, addr.data(), &addr_size,
                       false, false) == 0);
 
-            valid_write_and_read_block(bm, session, &buf, addr.data(), addr_size, str, false);
+            valid_write_and_read_block(&bm, session, &buf, addr.data(), addr_size, str, false);
             cookies.push_back({std::move(addr), addr_size});
             __wt_buf_free(nullptr, &buf);
         }
-        test_validate_cookies(bm, session, cookies, test_strings);
+        test_validate_cookies(&bm, session, cookies, test_strings);
     }
 
     SECTION("Test complex write api with changing write size")
@@ -198,19 +202,19 @@ TEST_CASE("Block manager: file operation read, write and write_size functions", 
         for (const auto &str : test_strings) {
             WT_ITEM buf;
             WT_CLEAR(buf);
-            test_and_validate_write_size(bm, session, str.length());
-            create_write_buffer(bm, session, str, &buf, str.length());
+            test_and_validate_write_size(&bm, session, str.length());
+            create_write_buffer(&bm, session, str, &buf, str.length());
 
             std::array<uint8_t, WT_BTREE_MAX_ADDR_COOKIE> addr;
             size_t addr_size;
-            REQUIRE(bm->write(bm, session->get_wt_session_impl(), &buf, addr.data(), &addr_size,
+            REQUIRE(bm.write(&bm, session->get_wt_session_impl(), &buf, addr.data(), &addr_size,
                       false, false) == 0);
 
-            valid_write_and_read_block(bm, session, &buf, addr.data(), addr_size, str, false);
+            valid_write_and_read_block(&bm, session, &buf, addr.data(), addr_size, str, false);
             cookies.push_back({std::move(addr), addr_size});
             __wt_buf_free(nullptr, &buf);
         }
-        test_validate_cookies(bm, session, cookies, test_strings);
+        test_validate_cookies(&bm, session, cookies, test_strings);
     }
-    bm->close(bm, session->get_wt_session_impl());
+    REQUIRE(__wt_block_close(session->get_wt_session_impl(), bm.block) == 0);
 }

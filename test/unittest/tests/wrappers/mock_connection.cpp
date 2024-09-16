@@ -76,8 +76,9 @@ mock_connection::setup_block_manager(WT_SESSION_IMPL *session)
     WT_RET(__wt_spin_init(session, &_connection_impl->block_lock, "block manager"));
 
     // Initialize an in-memory file system layer used for testing purposes.
-    F_SET(_connection_impl, WT_CONN_IN_MEMORY);
+    // F_SET(_connection_impl, WT_CONN_IN_MEMORY);
     _connection_impl->home = "";
-    WT_RET(__wt_os_inmemory(session));
+    WT_RET(__wt_os_posix(session));
+    //WT_RET(__wt_os_inmemory(session));
     return 0;
 }
