@@ -240,6 +240,18 @@ if(ENABLE_SHARED)
     # Set the SOVERSION property of the wiredtiger library, so we can export the appropriately versioned symlinks.
     set_target_properties(wiredtiger_shared PROPERTIES SOVERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
+    cmake_minimum_required(VERSION 3.9.4)
+
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT supported OUTPUT error)
+    
+    if( supported )
+        message(STATUS "IPO / LTO enabled")
+        set_property(TARGET wiredtiger_shared PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    else()
+        message(STATUS "IPO / LTO not supported: <${error}>")
+    endif()
+
     setup_gdb_autoloader()
 
     # For MacOS builds we need to generate a dSYM bundle that contains the debug symbols for the 
