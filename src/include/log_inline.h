@@ -27,6 +27,20 @@ __wt_log_cmp(WT_LSN *lsn1, WT_LSN *lsn2)
     return (l1 < l2 ? -1 : (l1 > l2 ? 1 : 0));
 }
 
+// Two int32s plus ", " == 22. Round up to 32 for next power of 2
+#define WT_LSN_STR_LEN 32
+
+/*
+ * __wt_lsn_to_str --
+ *     Write the lsn into a buffer in the format "file, offset".
+ */
+static WT_INLINE int
+__wt_lsn_to_str(WT_LSN *lsn, char *lsn_str)
+{
+    return (__wt_snprintf(
+      lsn_str, WT_LSN_STR_LEN, "%" PRIu32 ", %" PRIu32, lsn->l.file, __wt_lsn_offset(lsn)));
+}
+
 /*
  * __wt_lsn_offset --
  *     Return a log sequence number's offset.

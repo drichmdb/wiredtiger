@@ -1462,7 +1462,7 @@ err:
  */
 int
 __wt_meta_ckptlist_set(
-  WT_SESSION_IMPL *session, WT_DATA_HANDLE *dhandle, WT_CKPT *ckptbase, WT_LSN *ckptlsn)
+  WT_SESSION_IMPL *session, WT_DATA_HANDLE *dhandle, WT_CKPT *ckptbase, char *ckptlsn_str)
 {
     WT_CKPT *ckpt;
     WT_DECL_ITEM(buf);
@@ -1483,10 +1483,10 @@ __wt_meta_ckptlist_set(
                 WT_ERR(__ckpt_check_backup_blocks(session, ckpt, fname));
         }
 
-    has_lsn = ckptlsn != NULL;
-    if (ckptlsn != NULL)
-        WT_ERR(__wt_buf_catfmt(session, buf, ",checkpoint_lsn=(%" PRIu32 ",%" PRIuMAX ")",
-          ckptlsn->l.file, (uintmax_t)__wt_lsn_offset(ckptlsn)));
+    has_lsn = ckptlsn_str != NULL;
+    if (ckptlsn_str != NULL) {
+        WT_ERR(__wt_buf_catfmt(session, buf, ",checkpoint_lsn=(%s)", ckptlsn_str));
+    }
 
     if (__wt_atomic_load_enum(&dhandle->type) == WT_DHANDLE_TYPE_TIERED)
         WT_ERR(__wt_tiered_set_metadata(session, (WT_TIERED *)dhandle, buf));
