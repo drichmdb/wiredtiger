@@ -155,7 +155,7 @@ def build_component_functions_dicts():
     
     # This is the list of components that have been modularised as part of Q3 and following work.
     # They place header files inside the src/foo folder rather than in src/include
-    modularised_components = []
+    modularised_components = ["log"]
 
     for name in source_files():
         if not fnmatch.fnmatch(name, '*.c') + fnmatch.fnmatch(name, '*_inline.h'):
