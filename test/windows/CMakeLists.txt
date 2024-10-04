@@ -9,7 +9,7 @@ add_library(windows_shim STATIC ${sources})
 
 target_include_directories(
     windows_shim
-    PUBLIC ${CMAKE_SOURCE_DIR}/test/windows
+    PUBLIC ${CMAKE_SOURCE_DIR}/test/windows ${CMAKE_SOURCE_DIR}/src
     PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/config ${CMAKE_SOURCE_DIR}/src/include
 )
 

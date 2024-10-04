@@ -27,6 +27,7 @@ if(HAVE_BUILTIN_EXTENSION_SNAPPY OR ENABLE_SNAPPY)
     target_include_directories(
         wiredtiger_snappy
         PRIVATE
+            ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/include
             ${CMAKE_BINARY_DIR}/include
             ${CMAKE_BINARY_DIR}/config

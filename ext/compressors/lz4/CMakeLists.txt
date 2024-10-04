@@ -28,6 +28,7 @@ if(HAVE_BUILTIN_EXTENSION_LZ4 OR ENABLE_LZ4)
     target_include_directories(
         wiredtiger_lz4
         PRIVATE
+            ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/include
             ${CMAKE_BINARY_DIR}/include
             ${CMAKE_BINARY_DIR}/config

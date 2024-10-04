@@ -27,6 +27,7 @@ add_library(wiredtiger_s3_store MODULE s3_storage_source.cpp s3_log_system.cpp)
 target_include_directories(
     wiredtiger_s3_store
     PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/include
         ${CMAKE_BINARY_DIR}/include
         ${CMAKE_BINARY_DIR}/config

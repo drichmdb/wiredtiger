@@ -27,6 +27,7 @@ if(HAVE_BUILTIN_EXTENSION_ZSTD OR ENABLE_ZSTD)
     target_include_directories(
         wiredtiger_zstd
         PRIVATE
+            ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/include
             ${CMAKE_BINARY_DIR}/include
             ${CMAKE_BINARY_DIR}/config

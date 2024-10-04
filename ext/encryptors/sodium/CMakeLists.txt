@@ -27,6 +27,7 @@ if(HAVE_BUILTIN_EXTENSION_SODIUM OR ENABLE_SODIUM)
     target_include_directories(
         wiredtiger_sodium
         PRIVATE
+            ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/include
             ${CMAKE_BINARY_DIR}/include
             ${CMAKE_BINARY_DIR}/config

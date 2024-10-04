@@ -22,6 +22,7 @@ target_include_directories(
         ${CMAKE_BINARY_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_BINARY_DIR}/config
+        ${CMAKE_SOURCE_DIR}/src/
         ${CMAKE_SOURCE_DIR}/src/include
 )
 target_link_libraries(test_util PRIVATE wt::wiredtiger)

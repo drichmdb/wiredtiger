@@ -11,6 +11,7 @@ add_library(wiredtiger_dir_store MODULE ${sources})
 target_include_directories(
     wiredtiger_dir_store
     PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/include
         ${CMAKE_BINARY_DIR}/include
         ${CMAKE_BINARY_DIR}/config

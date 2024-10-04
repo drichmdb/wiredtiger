@@ -776,8 +776,10 @@ class SyscallCommand:
             # CTest runs a copy of the script in the build directory, so the src include
             # is a level above.
             self.incdirs.append(os.path.join(self.disttop, '..', 'src', 'include'))
+            self.incdirs.append(os.path.join(self.disttop, '..', 'src'))
         else:
             self.incdirs.append(os.path.join(self.disttop, 'src', 'include'))
+            self.incdirs.append(os.path.join(self.disttop, 'src'))
 
         if os.path.isfile(os.path.join(self.builddir, 'wiredtiger_config.h')) and \
             os.path.isfile(os.path.join(self.builddir, 'wiredtiger.h')):

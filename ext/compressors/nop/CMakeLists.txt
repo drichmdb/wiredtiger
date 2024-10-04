@@ -6,6 +6,7 @@ add_library(wiredtiger_nop_compress SHARED ${sources})
 target_include_directories(
     wiredtiger_nop_compress
     PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/include
         ${CMAKE_BINARY_DIR}/include
         ${CMAKE_BINARY_DIR}/config

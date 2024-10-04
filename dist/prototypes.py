@@ -23,7 +23,7 @@ from collections import defaultdict
 # instead of in src/include/. As a result all relevant code is contained to a single folder. 
 # Adding modules to this list will automatically generate those headers, and we expect this list to 
 # grow as we modularise the code base.
-SELF_CONTAINED_MODULES = []
+SELF_CONTAINED_MODULES = ["log"]
 
 DO_NOT_EDIT_BEGIN = "/* DO NOT EDIT: automatically built by prototypes.py: BEGIN */\n"
 DO_NOT_EDIT_END = "/* DO NOT EDIT: automatically built by prototypes.py: END */\n"
@@ -259,7 +259,7 @@ def check_wt_internal_includes():
         lines = file.readlines()
 
         for mod in SELF_CONTAINED_MODULES:
-            include_line = f"#include \"../{mod}/{mod}.h\""
+            include_line = f"#include \"{mod}/{mod}.h\""
             if f"{include_line}\n" not in lines:
                 print(f"The line '{include_line}' is missing from wt_internal.h. "
                       "Please make sure to include it.")

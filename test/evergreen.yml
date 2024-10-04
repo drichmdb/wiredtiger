@@ -196,6 +196,9 @@ functions:
         set -o errexit
         set -o verbose
         cp -a wiredtiger mongo/src/third_party/
+        # FIXME-WT-13610 This is a workaround to allow mongo to compile with the new WiredTiger changes. 
+        # We need to make update BUILD.bazel in the mongo repo before we can merge this branch to develop.
+        sed -i '/"-Isrc\/third_party\/wiredtiger\/src\/include",/a "-Isrc\/third_party\/wiredtiger\/src",' mongo/src/third_party/wiredtiger/BUILD.bazel
   "compile mongodb" :
     command: shell.exec
     params:
