@@ -1671,7 +1671,7 @@ tasks:
             set -o errexit
             set -o verbose
             ${PREPARE_TEST_ENV}
-            test/unittest/catch2-unittests
+            test/catch2/catch2-tests
 
   - name: catch2-unittest-assertions
     commands:
@@ -1687,7 +1687,7 @@ tasks:
             set -o errexit
             set -o verbose
             ${PREPARE_TEST_ENV}
-            test/unittest/catch2-unittests
+            test/catch2/catch2-tests
 
   # End of normal make check test tasks
 

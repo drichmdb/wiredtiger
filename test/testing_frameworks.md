@@ -3,7 +3,7 @@
 Here are the frequently-used WiredTiger testing frameworks (broken down by testing types):
 
 - Unit testing
-  - [Catch2](https://github.com/wiredtiger/wiredtiger/tree/develop/test/unittest)
+  - [Catch2](https://github.com/wiredtiger/wiredtiger/tree/develop/test/catch2)
 - End-to-end testing
   - [Python suite](https://github.com/wiredtiger/wiredtiger/tree/develop/test/suite)
   - [C suite](https://github.com/wiredtiger/wiredtiger/tree/develop/test/csuite)

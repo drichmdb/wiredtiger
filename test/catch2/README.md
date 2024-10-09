@@ -4,7 +4,7 @@
 
 To build these tests, run CMake with `-DHAVE_UNITTEST=1`, then build as
 usual with Ninja.  To run them, go to your build directory and execute
-`./test/unittest/catch2-unittests`.
+`./test/catch2/catch2-tests`.
 
 To run tests for a specific tag (a.k.a. subsystem), put the tag in square
 brackets, e.g. `[extent_list]`. You can specify multiple tags using commas.
